@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import { addToCart } from '../redux/product-actions/ProductActions'
+import {useDispatch} from 'react-redux'
 
 const Product = () => {
     const [product, setProduct] = useState({})
     const {id} = useParams()
+    const dispatch = useDispatch()
 
     const getProduct = async () => {
         const {data} = await axios.get(`https://fakestoreapi.com/products/${id}`)
@@ -31,6 +34,28 @@ const Product = () => {
                                 <h3 className='text-center'>
                                     {product.title}
                                 </h3>
+                              </div>
+                              <div className='product_price'>
+                                    <span className='bg-info text-light p-1'>
+                                        Price: ${product.price}
+                                    </span>
+                              </div>
+                              <div className='product_category mt-3'>
+                                    <span className='bg-secondary  text-white p-1'>
+                                        Category: ${product.category}
+                                    </span>
+                              </div>
+                              <div className='mt-3'>
+                                <p>{product.description}</p>
+                              </div>
+                              <div>
+                                <button className='btn btn-info'
+                                onClick={()=>{
+                                    dispatch(addToCart(product))
+                                }}
+                                >
+                                    Add to Cart
+                                </button>
                               </div>
                             </div>
                         </div>
